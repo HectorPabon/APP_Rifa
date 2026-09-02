@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Gran Rifa Oficial</title>
+  
+  <!-- Configuración PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#080d14">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Gran Rifa">
+  <link rel="apple-touch-icon" href="https://lh3.googleusercontent.com/d/1evmSQh8M4fMU06W1AKwXbbqkpckMddk6">
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1evmSQh8M4fMU06W1AKwXbbqkpckMddk6">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      background-color: #080d14;
+      overflow: hidden;
+      position: fixed;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+    /* Botón flotante para invitar a instalar */
+    #pwa-install-btn {
+      display: none;
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      background: linear-gradient(135deg, #d4b475 0%, #b8924b 100%);
+      color: #080d14;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 18px;
+      border-radius: 50px;
+      border: none;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+      cursor: pointer;
+      z-index: 99999;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- REEMPLAZA ESTA URL CON LA TUYA DE APPS SCRIPT -->
+  <iframe src="https://script.google.com/macros/s/AKfycbxlCfDTenazeIWPqo5s761wZZBp_unxLjoOL9x5lFscJlbHXM9jou1Hd3i_dXEp9fAILA/exec"></iframe>
+
+  <button id="pwa-install-btn">📲 Instalar App</button>
+
+  <script>
+    // Registro del Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(reg => console.log('PWA Service Worker listo', reg))
+          .catch(err => console.log('Error Service Worker', err));
+      });
+    }
+
+    // Manejo de la instalación en Android/Chrome
+    let deferredPrompt;
+    const installBtn = document.getElementById('pwa-install-btn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = 'block';
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          installBtn.style.display = 'none';
+        }
+        deferredPrompt = null;
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      installBtn.style.display = 'none';
+    });
+  </script>
+</body>
+</html>
