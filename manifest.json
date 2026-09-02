@@ -1,0 +1,23 @@
+{
+  "name": "Gran Rifa Oficial",
+  "short_name": "Gran Rifa",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#080d14",
+  "theme_color": "#080d14",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://lh3.googleusercontent.com/d/1evmSQh8M4fMU06W1AKwXbbqkpckMddk6",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://lh3.googleusercontent.com/d/1evmSQh8M4fMU06W1AKwXbbqkpckMddk6",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
